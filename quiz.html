@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Online Quiz</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+
+    padding:40px;
+
+}
+
+.quiz-container{
+
+    width:400px;
+    margin:auto;
+    padding:20px;
+    border:1px solid black;
+
+}
+
+h1{
+
+    text-align:center;
+    margin-bottom:20px;
+
+}
+
+.question{
+
+    margin-bottom:20px;
+    font-size:20px;
+
+}
+
+.option{
+
+    border:1px solid black;
+    padding:10px;
+    margin-bottom:10px;
+    cursor:pointer;
+
+}
+
+.selected{
+
+    border:2px solid black;
+
+}
+
+button{
+
+    width:100%;
+    padding:10px;
+    border:1px solid black;
+    background:none;
+    cursor:pointer;
+    margin-top:10px;
+
+}
+
+.result{
+
+    text-align:center;
+    margin-top:20px;
+    font-size:22px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="quiz-container">
+
+    <h1>Online Quiz</h1>
+
+    <div class="question"
+    id="question">
+    </div>
+
+    <div class="option"
+    id="opt1"
+    onclick="selectOption(this,'a')">
+    </div>
+
+    <div class="option"
+    id="opt2"
+    onclick="selectOption(this,'b')">
+    </div>
+
+    <div class="option"
+    id="opt3"
+    onclick="selectOption(this,'c')">
+    </div>
+
+    <div class="option"
+    id="opt4"
+    onclick="selectOption(this,'d')">
+    </div>
+
+    <button onclick="nextQuestion()">
+        Next Question
+    </button>
+
+    <div class="result"
+    id="result">
+    </div>
+
+</div>
+
+<script>
+
+const quiz = [
+
+{
+    question:"1. Which language is used for webpage structure?",
+    options:[
+        "HTML",
+        "CSS",
+        "Java",
+        "Python"
+    ],
+    answer:"a"
+},
+
+{
+    question:"2. Which tag is used for image in HTML?",
+    options:[
+        "img",
+        "image",
+        "pic",
+        "src"
+    ],
+    answer:"a"
+},
+
+{
+    question:"3. Which language is used for styling webpages?",
+    options:[
+        "Python",
+        "Java",
+        "CSS",
+        "C++"
+    ],
+    answer:"c"
+},
+
+{
+    question:"4. JavaScript is used for?",
+    options:[
+        "Styling",
+        "Database",
+        "Interactivity",
+        "Operating System"
+    ],
+    answer:"c"
+},
+
+{
+    question:"5. Which symbol is used for id selector in CSS?",
+    options:[
+        ".",
+        "#",
+        "*",
+        "@"
+    ],
+    answer:"b"
+}
+
+];
+
+let currentQuestion = 0;
+let selected = "";
+let score = 0;
+
+loadQuestion();
+
+function loadQuestion(){
+
+    selected = "";
+
+    document.getElementById("question").innerHTML =
+    quiz[currentQuestion].question;
+
+    document.getElementById("opt1").innerHTML =
+    "a) " + quiz[currentQuestion].options[0];
+
+    document.getElementById("opt2").innerHTML =
+    "b) " + quiz[currentQuestion].options[1];
+
+    document.getElementById("opt3").innerHTML =
+    "c) " + quiz[currentQuestion].options[2];
+
+    document.getElementById("opt4").innerHTML =
+    "d) " + quiz[currentQuestion].options[3];
+
+    let options =
+    document.querySelectorAll(".option");
+
+    options.forEach(opt=>{
+
+        opt.classList.remove("selected");
+
+    });
+
+}
+
+function selectOption(element,option){
+
+    let options =
+    document.querySelectorAll(".option");
+
+    options.forEach(opt=>{
+
+        opt.classList.remove("selected");
+
+    });
+
+    element.classList.add("selected");
+
+    selected = option;
+
+}
+
+function nextQuestion(){
+
+    if(selected===""){
+
+        alert("Select an option");
+        return;
+
+    }
+
+    if(selected ===
+    quiz[currentQuestion].answer){
+
+        score++;
+
+    }
+
+    currentQuestion++;
+
+    if(currentQuestion === quiz.length){
+
+        document.querySelector(".quiz-container").innerHTML = `
+
+        <h1>Quiz Completed</h1>
+
+        <div class="result">
+            Your Score: ${score} / ${quiz.length}
+        </div>
+
+        <button onclick="location.reload()">
+            Restart Quiz
+        </button>
+
+        `;
+
+        return;
+
+    }
+
+    loadQuestion();
+
+}
+
+</script>
+
+</body>
+
+</html>
